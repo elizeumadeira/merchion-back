@@ -2,6 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-Removi todas as rotas e deixei apenas em /api
-*/
+Route::get('/', function () {
+    return response()->json(['status' => 'ok']);
+});

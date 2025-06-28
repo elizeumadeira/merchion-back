@@ -15,7 +15,8 @@ class IsLogged
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // sempre retorna true
+        // implementa a validação de token de usuário
+        // como não estamos implementando autenticação, vamos apenas deixar tudo em branco
         return $next($request);
     }
 }

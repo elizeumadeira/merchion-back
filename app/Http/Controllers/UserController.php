@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -7,21 +8,46 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
+    public function getToken(Request $request): int
+    {
+        $authHeader = $request->header('Authorization');
+        if ($authHeader && preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            // Bearer token (no caso, o ID do usuario)
+            $token = $matches[1];
+            return (int) $token;
+        }
+
+        throw new \Exception('Token não encontrado no cabeçalho Authorization');
+    }
+
     public function me()
     {
-        return response()->json([
-            'me' => [
-                'nome'  => 'Elizeu',
-                'email' => 'elizeu.madeira@gmail.com',
-            ],
-        ]);
+        $userId = $this->getToken(request());
+        $user   = User::find($userId);
+        if (! $user) {
+            return response()->json([
+                'error'   => true,
+                'message' => 'Usuário não encontrado',
+            ], 404);
+        }
+        return response()->json($user, 200);
     }
 
     //
     public function store(Request $request)
     {
         try {
-            return $this->save(new User, $request);
+            if ($this->save(new User, $request)) {
+                return response()->json([
+                    'error'   => false,
+                    'message' => 'Usuário criado com sucesso',
+                ], 201);
+            } else {
+                return response()->json([
+                    'error'   => true,
+                    'message' => 'Erro ao criar usuário',
+                ], 401);
+            }
         } catch (ValidationException $e) {
             return response()->json([
                 'error'   => true,
@@ -42,7 +68,7 @@ class UserController extends Controller
             // return $this->save(new User, $request);
             User::validateLogin($request->all());
 
-            if (!auth()->attempt($request->only('email', 'password'))) {
+            if (! auth()->attempt($request->only('email', 'password'))) {
                 return response()->json([
                     'error'   => true,
                     'message' => 'Login inválido',
@@ -51,8 +77,8 @@ class UserController extends Controller
 
             // nessa etapa armazena o usuario na sessão
             $user = auth()->user();
-            
-            // o campo $hidden da classe App\Models\User impede que 
+
+            // o campo $hidden da classe App\Models\User impede que
             // a senha seja exibida para o front
             return response()->json([
                 'message' => 'Login feito com sucesso',
@@ -94,13 +120,13 @@ class UserController extends Controller
      * A validação dos campos é feita na classe de modelo, centralizando essa lógica na model
      * o mesmo script é executado tanto na edição quando na criação
      */
-    private function save(User $user, Request $request)
+    private function save(User $user, Request $request): bool
     {
         User::validate($request->all());
 
         $user->name     = $request->input('name');
         $user->email    = $request->input('email');
         $user->password = bcrypt($request->input('password'));
-        $user->save();
+        return $user->save();
     }
 }

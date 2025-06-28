@@ -19,7 +19,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        // '*', // remover esse comentário para deixar todo mundo acessar (rodar php artisan config:clear e php artisan route:clear)
+        'http://elizeu-front-teste.test:8081' // permite que o Front possa fazer requisição
+    ],
 
     'allowed_origins_patterns' => [],
 
