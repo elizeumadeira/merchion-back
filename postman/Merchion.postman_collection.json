@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "e6b2451a-40c5-48dd-894c-8ff1cdb23ad9",
+		"name": "Merchion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6153308"
+	},
+	"item": [
+		{
+			"name": "user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "elizeu.madeira@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "teste123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/user/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "me",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{usuario_id_endpoint_me}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "elizeu.madeira@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "teste123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/user/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "teste",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/teste",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"teste"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -44,4 +44,6 @@ Para facilitar a análise, vou adicionar uma lista dos arquivos criados/alterado
 - app\Http\Controllers\UserController.php
 - app\Models\User.php
 
-Tentei adicionar comentários onde possível mas acredito que todas as alterações são fáceis de entender
+Tentei adicionar comentários onde possível mas acredito que todas as alterações são fáceis de entender.
+
+Adicionei a collection e environment do POSTMAN para o projeto na pasta postman
